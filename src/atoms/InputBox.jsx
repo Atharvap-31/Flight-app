@@ -19,7 +19,7 @@ const InputBox = ({
       onChange={onChange}
       placeholder={placeholder}
       required={required}
-      className={`w-full  p-2 border border-gray-300 rounded ${className}`}
+      className={`w-full p-2 border border-gray-300 rounded ${className}`}
     />
   );
 };
