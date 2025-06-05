@@ -5,7 +5,6 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   function ProtectedRoute({ children }) {
     const isLogin = true;
@@ -18,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
