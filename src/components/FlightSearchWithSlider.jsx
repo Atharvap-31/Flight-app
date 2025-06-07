@@ -1,16 +1,26 @@
 import React, { useState, useMemo, useEffect } from "react";
 
-const FlightSearchWithSlider = ({ allFlights, setAllFlights,flights }) => {
+const FlightSearchWithSlider = ({ roundTripFlightsApiData,flightsApiData,setOneWayFlightData,setRoundTripFlightData  }) => {
+
+
   const minPrice = 1000;
   const [maxPrice, setMaxPrice] = useState(10000);
 
   useEffect(() => {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    const filtered = flights.filter((flight) => {
+   
+    const filtered = flightsApiData.filter((flight) => {
       return flight.price >= minPrice && flight.price <= maxPrice;
     });
-    setAllFlights(filtered);
+    const RoundTripfiltered = roundTripFlightsApiData.filter((flight) => {
+      return flight.price >= minPrice && flight.price <= maxPrice;
+    });
+
+    setOneWayFlightData(filtered);
+    setRoundTripFlightData(RoundTripfiltered);
   }, [maxPrice]);
+
+
+ 
 
   return (
     <div className="p-6 max-w-2xl mx-auto">

@@ -2,30 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FaAngleUp, FaChevronDown } from "react-icons/fa6";
 
 const FilterFlights = ({
-  setFlightData,
-  setAllFlights,
-  flights,
-  allFlights,
-  airLines,
+setOneWayFlightData,
+setRoundTripFlightData,
+airLines,
+roundTripFlightsApiData,
+flightsApiData
 }) => {
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  useEffect(() => {
-    setAllFlights(flights);
-    setFlightData(flights);
-  }, [flights]);
+
 
   useEffect(() => {
     if (selectedAirlines.length === 0) {
-      setFlightData(allFlights);
+      setOneWayFlightData(flightsApiData);
+      setRoundTripFlightData(roundTripFlightsApiData);
     } else {
-      const filtered = allFlights.filter((flight) =>
+      const filteredOneWay = flightsApiData.filter((flight) =>
         selectedAirlines.includes(flight.airline?.name)
       );
-      setFlightData(filtered);
+
+      const filteredRoundTrip = roundTripFlightsApiData.filter((flight) =>
+        selectedAirlines.includes(flight.airline?.name)
+      );
+
+      setOneWayFlightData(filteredOneWay);
+      setRoundTripFlightData(filteredRoundTrip);
     }
-  }, [selectedAirlines, allFlights]);
+  }, [selectedAirlines, flightsApiData, roundTripFlightsApiData]);
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-200">
@@ -36,7 +40,7 @@ const FilterFlights = ({
         <h2 className="text-xl font-semibold text-gray-900">
           ✈️ Filter by Airlines
         </h2>
-        <button className="text-gray-600 cursor-pointer  transition">
+        <button className="text-gray-600 transition">
           {showFilters ? <FaAngleUp /> : <FaChevronDown />}
         </button>
       </div>
@@ -61,7 +65,7 @@ const FilterFlights = ({
                     );
                   }
                 }}
-                className="h-5 w-5 text-indigo-600 transition duration-200 ease-in-out border-gray-300 rounded focus:ring-indigo-500"
+                className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
               />
               <span className="text-gray-800 font-medium">{airline}</span>
             </label>
@@ -71,5 +75,6 @@ const FilterFlights = ({
     </div>
   );
 };
+
 
 export default FilterFlights;

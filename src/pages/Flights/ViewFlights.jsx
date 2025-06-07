@@ -7,67 +7,89 @@ import { useNavigate } from "react-router";
 import StopsFilter from "./StopsFilter";
 
 const ViewFlights = () => {
-  const flights = useSelector((state) => state.flights.flights);
-  const [allFlights, setAllFlights] = useState([]);
-  const [flightData, setFlightData] = useState([]);
-  const [selectedAirlines, setSelectedAirlines] = useState([]);
+  const flightsData = useSelector((state) => state.flights.flights);
+  const tripType = useSelector((state) => state.flights.tripType);
   const navigate = useNavigate();
 
-  const airLines = flights?.map((item) => item.airline.name);
+  const flightsApiData = flightsData[0]?.oneWayFlights;
+  const roundTripFlightsApiData = flightsData[0]?.roundTripFlights;
 
-  useEffect(() => {
-    setAllFlights(flights);
-  }, [flights]);
+  const airLines = [...flightsApiData, ...roundTripFlightsApiData]?.map(
+    (item) => item.airline.name
+  );
+
+  const [oneWayFlightData, setOneWayFlightData] = useState([]);
+
+  const [roundTripFlightData, setRoundTripFlightData] = useState([]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <aside className="lg:col-span-1">
+      <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <aside className="lg:col-span-2">
           <div className="p-4 bg-white shadow rounded-lg w-full">
             <div className="space-y-2">
               <FilterFlights
-                setSelectedAirlines={setSelectedAirlines}
-                selectedAirlines={selectedAirlines}
-                setFlightData={setFlightData}
-                setAllFlights={setAllFlights}
-                allFlights={allFlights}
+                setOneWayFlightData={setOneWayFlightData}
+                setRoundTripFlightData={setRoundTripFlightData}
                 airLines={airLines}
-                flights={flights}
+                roundTripFlightsApiData={roundTripFlightsApiData}
+                flightsApiData={flightsApiData}
               />
             </div>
 
             <div className="space-y-2">
               <FlightSearchWithSlider
-                allFlights={allFlights}
-                setAllFlights={setAllFlights}
-                flights={flights}
+                roundTripFlightsApiData={roundTripFlightsApiData}
+                flightsApiData={flightsApiData}
+                setOneWayFlightData={setOneWayFlightData}
+                setRoundTripFlightData={setRoundTripFlightData}
               />
             </div>
 
             <div className="space-y-2">
               <StopsFilter
-                allFlights={allFlights}
-                setAllFlights={setAllFlights}
-                setFlightData={setFlightData}
-                flights={flights}
+                flightsApiData={flightsApiData}
+                setOneWayFlightData={setOneWayFlightData}
+                roundTripFlightsApiData={roundTripFlightsApiData}
+                setRoundTripFlightData={setRoundTripFlightData}
               />
             </div>
           </div>
         </aside>
 
-        <main className="lg:col-span-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {flightData?.map((flight, idx) => {
+        <main
+          className={` ${
+            tripType === "round-trip" ? "lg:col-span-5" : "lg:col-span-10"
+          }    `}
+        >
+          <h1>One Way Trip</h1>
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2  ${
+              tripType === "round-trip" ? "xl:grid-cols-2" : "xl:grid-cols-4"
+            }  gap-6`}
+          >
+            {oneWayFlightData?.map((flight, idx) => {
               const dep = flight.departure;
               const arr = flight.arrival;
 
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 transition hover:shadow-2xl"
+                  className={`bg-white rounded-2xl shadow-xl border ${
+                    flight.select ? "border-red-500" : "border-gray-500"
+                  }  p-6 transition hover:shadow-2xl  `}
+                  onClick={() => {
+                    if (tripType === "round-trip") {
+                      setOneWayFlightData((prevData) =>
+                        prevData.map((flight, i) => ({
+                          ...flight,
+                          select: i === idx,
+                        }))
+                      );
+                    }
+                  }}
                 >
-                  {/* Airline Header */}
-                  <div className="flex items-center justify-between mb-4 h-[100px]">
+                  <div className="flex items-center justify-between mb-4">
                     <div>
                       <h2 className="text-lg font-bold text-gray-900">
                         {flight.airline?.name}
@@ -82,7 +104,6 @@ const ViewFlights = () => {
                     </span>
                   </div>
 
-                  {/* Flight Details */}
                   <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
                     <div>
                       <p className="text-xs font-semibold text-gray-400">
@@ -143,21 +164,132 @@ const ViewFlights = () => {
                     )}
                   </div>
 
-                  <div className="flex justify-center items-center pt-6">
-                    <button
-                      onClick={() =>
-                        navigate(`/viewflights/${flight.flight.number}`)
-                      }
-                      className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
-                    >
-                      Book
-                    </button>
-                  </div>
+                  {tripType !== "round-trip" && (
+                    <div className="flex justify-center items-center pt-6">
+                      <button
+                        onClick={() =>
+                          navigate(`/viewflights/${flight.flight.number}`)
+                        }
+                        className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
+                      >
+                        Book
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         </main>
+        {tripType === "round-trip" && (
+          <main className="lg:col-span-5">
+            <h1>Round Trip Trip</h1>
+
+            <div
+              className={`grid grid-cols-1 sm:grid-cols-2   xl:grid-cols-2 gap-6`}
+            >
+              {roundTripFlightData?.map((flight, idx) => {
+                const dep = flight.departure;
+                const arr = flight.arrival;
+
+                return (
+                  <div
+                    key={idx}
+                    className={`bg-white rounded-2xl shadow-xl border ${
+                      flight.select ? "border-red-500" : "border-gray-500"
+                    }  p-6 transition hover:shadow-2xl  `}
+                    onClick={() => {
+                      if (tripType === "round-trip") {
+                        setRoundTripFlightData((prevData) =>
+                          prevData.map((flight, i) => ({
+                            ...flight,
+                            select: i === idx,
+                          }))
+                        );
+                      }
+                    }}
+                  >
+                    {/* Airline Header */}
+                    <div className="flex items-center justify-between mb-4 h-[100px]">
+                      <div>
+                        <h2 className="text-lg font-bold text-gray-900">
+                          {flight.airline?.name}
+                        </h2>
+                        <p className="text-sm text-gray-500 tracking-wide">
+                          {flight.airline?.iata} / {flight.airline?.icao}
+                        </p>
+                      </div>
+                      <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold">
+                        {dep?.airport.split(" ")[0]} →{" "}
+                        {arr?.airport.split(" ")[0]}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400">
+                          Departure
+                        </p>
+                        <p className="font-medium">{dep.airport}</p>
+                        <p>
+                          {new Date(dep.scheduled).toLocaleString("en-IN", {
+                            timeZone: dep.timezone,
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            day: "numeric",
+                            month: "short",
+                          })}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Terminal {dep.terminal}, Gate {dep.gate || "—"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400">
+                          Arrival
+                        </p>
+                        <p className="font-medium">{arr.airport}</p>
+                        <p>
+                          {new Date(arr.scheduled).toLocaleString("en-IN", {
+                            timeZone: arr.timezone,
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            day: "numeric",
+                            month: "short",
+                          })}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Terminal {arr.terminal}, Gate {arr.gate || "—"}
+                        </p>
+                        <p className="text-xs text-gray-500 font-bold">
+                          Price: {flight.price} RS
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 flex justify-between items-center">
+                      <span
+                        className={`inline-flex items-center text-sm font-medium px-3 py-1 rounded-full ${
+                          flight.landed
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {flight.landed ? "Landed" : "Scheduled"}
+                      </span>
+
+                      {dep.delay && (
+                        <span className="text-xs font-medium text-red-600">
+                          ⏱ Delay: {dep.delay} min
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </main>
+        )}
       </div>
     </div>
   );

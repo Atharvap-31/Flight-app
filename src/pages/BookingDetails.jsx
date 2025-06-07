@@ -8,8 +8,8 @@ import ConfirmationPage from "./Flights/ConfirmationPage";
 
 const BookingDetails = () => {
   const { id } = useParams();
-  const [showModal, setShowModal] = useState(false);
-  const [bookingData, setBookingData] = useState(null);
+
+
   const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -39,7 +39,11 @@ const BookingDetails = () => {
     state: Yup.string().required("State is required"),
   });
 
-  const flights = useSelector((state) => state.flights.flights);
+  const flightsReduxData = useSelector((state) => state.flights.flights);
+  
+
+  const flights= [   ...flightsReduxData[0].oneWayFlights,...flightsReduxData[0].roundTripFlights]
+
 
   const uniqueDetails = flights?.filter((item) => item.flight.number === id);
 
@@ -61,8 +65,8 @@ const BookingDetails = () => {
         JSON.parse(localStorage.getItem("bookings")) || [];
       const updatedBookings = [...existingBookings, booking];
       localStorage.setItem("bookings", JSON.stringify(updatedBookings));
-      setBookingData(booking);
-      setShowModal(true);
+
+
       navigate("/confirmation", { state: { booking, id } });
     } else {
       alert("Payment Failed. Try again.");

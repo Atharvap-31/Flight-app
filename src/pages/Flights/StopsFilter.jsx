@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { TIME_SLOT } from "../../constants/TimeSlotConstant";
 
-const StopsFilter = ({ allFlights, setAllFlights, flights,setFlightData }) => {
+const StopsFilter = ({
+  flightsApiData,
+  setOneWayFlightData,
+  roundTripFlightsApiData,
+  setRoundTripFlightData,
+}) => {
   const [selectedStop, setSelectedStop] = useState("all");
   const [selectedSlot, setSelectedSlot] = useState("all");
 
@@ -10,7 +15,7 @@ const StopsFilter = ({ allFlights, setAllFlights, flights,setFlightData }) => {
   };
 
   const handleFilter = () => {
-    const filtered = allFlights.filter((flight) => {
+    const filtered = flightsApiData.filter((flight) => {
       const stopType = getStopType(flight);
       const depSlot = TIME_SLOT(flight?.departure?.scheduled);
 
@@ -19,9 +24,21 @@ const StopsFilter = ({ allFlights, setAllFlights, flights,setFlightData }) => {
         (selectedSlot === "all" || depSlot === selectedSlot)
       );
     });
-    setFlightData(filtered);
+    const roundTripFiltered = roundTripFlightsApiData.filter((flight) => {
+      const stopType = getStopType(flight);
+      const depSlot = TIME_SLOT(flight?.departure?.scheduled);
+
+      return (
+        (selectedStop === "all" || stopType === selectedStop) &&
+        (selectedSlot === "all" || depSlot === selectedSlot)
+      );
+    });
+
+    setRoundTripFlightData(roundTripFiltered);
+
+    setOneWayFlightData(filtered);
   };
- return (
+  return (
     <div className="p-4 bg-white shadow-md rounded-lg max-w-2xl">
       <div className="flex gap-4 mb-4 flex-wrap">
         {/* Stop Filter */}
