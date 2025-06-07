@@ -27,7 +27,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/viewflights" element={<ViewFlights />} />
-        <Route path="/viewflights/:id" element={<BookingDetails />} />
+        <Route path="/viewflights/:id/:roundtripId?" element={<BookingDetails />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
       </Routes>
     </BrowserRouter>

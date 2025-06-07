@@ -7,8 +7,8 @@ import BookingModal from "../atoms/BookingModal";
 import ConfirmationPage from "./Flights/ConfirmationPage";
 
 const BookingDetails = () => {
-  const { id } = useParams();
-
+  const { id,roundtripId } = useParams();
+  const tripType = useSelector((state) => state.flights.tripType);
 
   const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState({
@@ -45,7 +45,7 @@ const BookingDetails = () => {
   const flights= [   ...flightsReduxData[0].oneWayFlights,...flightsReduxData[0].roundTripFlights]
 
 
-  const uniqueDetails = flights?.filter((item) => item.flight.number === id);
+  const uniqueDetails = flights?.filter((item) => item.flight.number === id || item.flight.number === roundtripId);
 
   const generateBookingId = () => {
     return "BOOK-" + Date.now();
@@ -74,8 +74,9 @@ const BookingDetails = () => {
   };
 
   return (
-    <div className="m-4">
-      {uniqueDetails.map((flight) => {
+    <div className="m-4 flex">
+      <div>
+  {uniqueDetails.map((flight) => {
         const {
           aircraft,
           airline,
@@ -167,7 +168,14 @@ const BookingDetails = () => {
               </div>
             </div>
 
-            {/* Booking Form */}
+    
+          </div>
+        );
+      })}
+      </div>
+
+    
+              {/* Booking Form */}
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -323,9 +331,6 @@ const BookingDetails = () => {
                 </Form>
               )}
             </Formik>
-          </div>
-        );
-      })}
     </div>
   );
 };

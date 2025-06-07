@@ -24,6 +24,26 @@ const ViewFlights = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      {tripType === "round-trip" && (
+        <div className="flex justify-center  pt-6 w-[20%]">
+          <button
+            onClick={() => {
+              const selectedOnwayFlight = oneWayFlightData.find(
+                (flight) => flight.select
+              );
+              const selectedRoundTripFlight = roundTripFlightData.find(
+                (flight) => flight.select
+              );
+              navigate(
+                `/viewflights/${selectedOnwayFlight?.flight?.number}/${selectedRoundTripFlight?.flight?.number}`
+              );
+            }}
+            className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
+          >
+            Book
+          </button>
+        </div>
+      )}
       <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside className="lg:col-span-2">
           <div className="p-4 bg-white shadow rounded-lg w-full">
