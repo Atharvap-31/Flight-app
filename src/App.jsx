@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import ViewFlights from "./pages/Flights/ViewFlights";
 import BookingDetails from "./pages/BookingDetails";
+import ConfirmationPage from "./pages/Flights/ConfirmationPage";
 
 function App() {
 
@@ -21,12 +22,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/viewflights" element={<ViewFlights />} />
         <Route path="/viewflights/:id" element={<BookingDetails />} />
+        <Route path="/confirmation" element={<ConfirmationPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,6 +4,7 @@ import FilterFlights from "../../components/FilterFlights";
 import PriceFilter from "./PriceFilter";
 import FlightSearchWithSlider from "../../components/FlightSearchWithSlider";
 import { useNavigate } from "react-router";
+import StopsFilter from "./StopsFilter";
 
 const ViewFlights = () => {
   const flights = useSelector((state) => state.flights.flights);
@@ -42,6 +43,15 @@ const ViewFlights = () => {
                 flights={flights}
               />
             </div>
+
+            <div className="space-y-2">
+              <StopsFilter
+                allFlights={allFlights}
+                setAllFlights={setAllFlights}
+                setFlightData={setFlightData}
+                flights={flights}
+              />
+            </div>
           </div>
         </aside>
 
@@ -57,7 +67,7 @@ const ViewFlights = () => {
                   className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 transition hover:shadow-2xl"
                 >
                   {/* Airline Header */}
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-4 h-[100px]">
                     <div>
                       <h2 className="text-lg font-bold text-gray-900">
                         {flight.airline?.name}

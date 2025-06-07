@@ -88,7 +88,6 @@ const SearchFlights = () => {
           ...flight,
           price: calculatePrice(),
         }));
-      console.log(filteredFlights);
 
       dispatch(setFlights(filteredFlights));
       navigate("/viewflights");
