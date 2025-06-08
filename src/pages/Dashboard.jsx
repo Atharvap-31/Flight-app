@@ -36,43 +36,41 @@ const SearchFlights = () => {
 
       <div className="space-y-4 max-w-4xl mx-auto">
         {filteredBookings?.length > 0 ? (
-          filteredBookings?.map((booking, index) => (
+          filteredBookings.map((booking, index) => (
             <div
               key={index}
               className="bg-white p-4 rounded shadow border hover:shadow-lg transition"
             >
-              <h2 className="text-xl font-semibold text-blue-600 mb-2">
-                {booking.flightDetails[0].airline.name} -{" "}
-                {booking.flightDetails[0].airline.iata}
-              </h2>
-              <p>
-                <strong>Flight No:</strong>{" "}
-                {booking.flightDetails[0]?.flight.number}
-              </p>
-              <p>
-                <strong>Date:</strong> {booking.flightDetails[0]?.flight_date}
-              </p>
-              <p>
-                <strong>Departure:</strong>{" "}
-                {booking.flightDetails[0]?.departure.airport} at{" "}
-                {new Date(
-                  booking.flightDetails[0]?.departure.scheduled
-                ).toLocaleTimeString()}
-              </p>
-              <p>
-                <strong>Arrival:</strong>{" "}
-                {booking.flightDetails[0]?.arrival.airport} at{" "}
-                {new Date(
-                  booking.flightDetails[0]?.arrival.scheduled
-                ).toLocaleTimeString()}
-              </p>
-              <p>
-                <strong>Status:</strong>{" "}
-                {booking.flightDetails[0]?.flight_status}
-              </p>
-              <p>
-                <strong>Price:</strong> ₹{booking.flightDetails[0]?.price}
-              </p>
+              {booking.flightDetails.map((flight, i) => (
+                <div
+                  key={i}
+                  className="mb-4 border-b pb-4 last:border-b-0 last:pb-0"
+                >
+                  <h2 className="text-xl font-semibold text-blue-600 mb-2">
+                    {flight.airline.name} - {flight.airline.iata}
+                  </h2>
+                  <p>
+                    <strong>Flight No:</strong> {flight.flight.number}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {flight.flight_date}
+                  </p>
+                  <p>
+                    <strong>Departure:</strong> {flight.departure.airport} at{" "}
+                    {new Date(flight.departure.scheduled).toLocaleTimeString()}
+                  </p>
+                  <p>
+                    <strong>Arrival:</strong> {flight.arrival.airport} at{" "}
+                    {new Date(flight.arrival.scheduled).toLocaleTimeString()}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {flight.flight_status}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> ₹{flight.price}
+                  </p>
+                </div>
+              ))}
             </div>
           ))
         ) : (

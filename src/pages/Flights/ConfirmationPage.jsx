@@ -63,10 +63,10 @@ const ConfirmationPage = () => {
 
         <div className="mt-6 flex justify-center">
           <button
-            onClick={() => navigate(`/viewflights/${id}`)}
+            onClick={() => navigate(`/viewflights`)}
             className="bg-blue-600 cursor-pointer text-white py-2 px-6 rounded hover:bg-blue-700"
           >
-            Go to Dashboard
+            Go to View Flights
           </button>
         </div>
       </div>

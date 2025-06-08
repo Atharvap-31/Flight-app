@@ -34,20 +34,10 @@ const ViewFlights = () => {
     return dep, arr;
   });
 
-  console.log(
-    oneWayFlightData?.map((flight, idx) => {
-      const dep = flight.departure.airport;
-      const arr = flight.arrival.airport;
-
-      console.log(dep);
-      console.log(arr);
-    })
-  );
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <aside className="lg:col-span-2">
+        <aside className="lg:col-span-3">
           <div className="p-4 bg-white shadow rounded-lg w-full">
             <div className="space-y-2">
               <FilterFlights
@@ -81,7 +71,7 @@ const ViewFlights = () => {
 
         <main
           className={` ${
-            tripType === "round-trip" ? "lg:col-span-5" : "lg:col-span-10"
+            tripType === "round-trip" ? "lg:col-span-5" : "lg:col-span-9"
           }    `}
         >
           <h1 className="text-sm font-semibold mb-6">

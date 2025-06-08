@@ -120,23 +120,23 @@ const SearchFlights = () => {
 
       <Formik
         initialValues={flightSearchInitialValues}
-        validate={async (values) => {
-          const schema = getFlightSearchValidationSchema(values);
-          try {
-            await schema.validate(values, { abortEarly: false });
-            return {};
-          } catch (err) {
-            const errors = {};
-            if (err.inner) {
-              err.inner.forEach((e) => {
-                if (!errors[e.path]) {
-                  errors[e.path] = e.message;
-                }
-              });
-            }
-            return errors;
-          }
-        }}
+        // validate={async (values) => {
+        //   const schema = getFlightSearchValidationSchema(values);
+        //   try {
+        //     await schema.validate(values, { abortEarly: false });
+        //     return {};
+        //   } catch (err) {
+        //     const errors = {};
+        //     if (err.inner) {
+        //       err.inner.forEach((e) => {
+        //         if (!errors[e.path]) {
+        //           errors[e.path] = e.message;
+        //         }
+        //       });
+        //     }
+        //     return errors;
+        //   }
+        // }}
         onSubmit={handleSubmit}
       >
         {({ values }) => {

@@ -128,86 +128,93 @@ const Signup = () => {
     //   </Formik>
     // </div>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-4">
-  <Formik
-    initialValues={form}
-    validationSchema={SignupSchema}
-    onSubmit={handleSubmit}
-  >
-    {({ values, handleChange, errors }) => (
-      <Form className="bg-white/40 backdrop-blur-md shadow-2xl rounded-3xl px-10 py-12 w-full max-w-md border border-white/30">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center tracking-tight">
-          Create Your Account
-        </h2>
+      <Formik
+        initialValues={form}
+        validationSchema={SignupSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ values, handleChange, errors }) => (
+          <Form className="bg-white/40 backdrop-blur-md shadow-2xl rounded-3xl px-10 py-12 w-full max-w-md border border-white/30">
+            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center tracking-tight">
+              Create Your Account
+            </h2>
 
-        {/* Role selection */}
-        <div className="flex justify-center gap-6 mb-10">
-          <label className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
+            <div className="flex justify-center gap-6 mb-10">
+              <label className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
+                <Field
+                  as={InputBox}
+                  type="radio"
+                  name="role"
+                  value="user"
+                  checked={values.role === "user"}
+                  onChange={handleChange}
+                  className="accent-purple-500"
+                />
+                <span>User</span>
+              </label>
+
+              <label className="flex items-center gap-2  cursor-pointer text-gray-700 font-medium">
+                <Field
+                  as={InputBox}
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={values.role === "admin"}
+                  onChange={handleChange}
+                  className="accent-purple-500"
+                />
+                <span>Admin</span>
+              </label>
+            </div>
+
             <Field
               as={InputBox}
-              type="radio"
-              name="role"
-              value="user"
-              checked={values.role === "user"}
-              onChange={handleChange}
-              className="accent-purple-500"
+              placeholder="Email"
+              type="email"
+              name="email"
+              className="w-full mb-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/60 backdrop-blur"
             />
-            <span>User</span>
-          </label>
+            <ErrorMessage
+              name="email"
+              component="p"
+              className="text-sm mb-4 text-red-500 font-semibold"
+            />
 
-          <label className="flex items-center gap-2  cursor-pointer text-gray-700 font-medium">
             <Field
               as={InputBox}
-              type="radio"
-              name="role"
-              value="admin"
-              checked={values.role === "admin"}
-              onChange={handleChange}
-              className="accent-purple-500"
+              placeholder="Password"
+              type="password"
+              name="password"
+              className="w-full mb-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/60 backdrop-blur"
             />
-            <span>Admin</span>
-          </label>
-        </div>
+            <ErrorMessage
+              name="password"
+              component="p"
+              className="text-sm mb-4 text-red-500 font-semibold"
+            />
 
-        {/* Email Field */}
-        <Field
-          as={InputBox}
-          placeholder="Email"
-          type="email"
-          name="email"
-          className="w-full mb-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/60 backdrop-blur"
-        />
-        <ErrorMessage
-          name="email"
-          component="p"
-          className="text-sm mb-4 text-red-500 font-semibold"
-        />
+            <button
+              type="submit"
+              className="w-full mt-6 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-200 ease-in-out"
+            >
+              Sign Up
+            </button>
 
-        {/* Password Field */}
-        <Field
-          as={InputBox}
-          placeholder="Password"
-          type="password"
-          name="password"
-          className="w-full mb-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/60 backdrop-blur"
-        />
-        <ErrorMessage
-          name="password"
-          component="p"
-          className="text-sm mb-4 text-red-500 font-semibold"
-        />
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full mt-6 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-200 ease-in-out"
-        >
-          Sign Up
-        </button>
-      </Form>
-    )}
-  </Formik>
-</div>
-
+            <p className="mt-3 text-black font-medium">
+              If You have a Account Please Login In
+            </p>
+            <div className="pt-5 flex  justify-end items-center mx-2">
+              <button
+                onClick={() => navigate("/")}
+                className="text-red-600 underline font-medium cursor-pointer"
+              >
+               Login In
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
