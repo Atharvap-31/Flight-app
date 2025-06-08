@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { setFlights,setTripType } from "../redux/createSlice";
 import { useNavigate } from "react-router";
-const BackendUrl = import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env.VITE_API_KEY;
 
 const SearchFlights = () => {
   const flightSearchInitialValues = {
@@ -28,7 +28,7 @@ const SearchFlights = () => {
         "https://api.aviationstack.com/v1/flights",
         {
           params: {
-            access_key: BackendUrl,
+            access_key: apiKey,
             dep_iata,
             arr_iata,
           },
@@ -66,7 +66,7 @@ const SearchFlights = () => {
 
       const requests = cityNames.map((city) =>
         axios.get("https://api.aviationstack.com/v1/cities", {
-          params: { access_key: BackendUrl, city_name: city },
+          params: { access_key: apiKey, city_name: city },
         })
       );
 
@@ -120,23 +120,7 @@ const SearchFlights = () => {
 
       <Formik
         initialValues={flightSearchInitialValues}
-        // validate={async (values) => {
-        //   const schema = getFlightSearchValidationSchema(values);
-        //   try {
-        //     await schema.validate(values, { abortEarly: false });
-        //     return {};
-        //   } catch (err) {
-        //     const errors = {};
-        //     if (err.inner) {
-        //       err.inner.forEach((e) => {
-        //         if (!errors[e.path]) {
-        //           errors[e.path] = e.message;
-        //         }
-        //       });
-        //     }
-        //     return errors;
-        //   }
-        // }}
+
         onSubmit={handleSubmit}
       >
         {({ values }) => {

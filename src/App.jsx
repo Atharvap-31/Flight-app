@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router";
-import { BrowserRouter } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -8,29 +7,73 @@ import User from "./pages/User";
 import ViewFlights from "./pages/Flights/ViewFlights";
 import BookingDetails from "./pages/BookingDetails";
 import ConfirmationPage from "./pages/Flights/ConfirmationPage";
+import Unauthorized from "./pages/Unauthorized";
+import useAutoLogout from "./pages/useAutoLogout";
 
 function App() {
+  useAutoLogout();
+  const ProtectedRoute = ({ children, allowedRoles = [] }) => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  function ProtectedRoute({ children }) {
-    const isLogin = true;
-    if (!isLogin) {
+    if (!user || !user.role) {
       return <Navigate to="/" replace />;
     }
-    return <>{children}</>;
-  }
+
+    if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
+      return <Navigate to="/unauthorized" replace />;
+    }
+
+    return children;
+  };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/viewflights" element={<ViewFlights />} />
-        <Route path="/viewflights/:id/:roundtripId?" element={<BookingDetails />} />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      <Route
+        path="/user"
+        element={
+          <ProtectedRoute allowedRoles={["user"]}>
+            <User />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/viewflights"
+        element={
+          <ProtectedRoute allowedRoles={["user"]}>
+            <ViewFlights />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/viewflights/:id/:roundtripId?"
+        element={
+          <ProtectedRoute allowedRoles={["user"]}>
+            <BookingDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/confirmation"
+        element={
+          <ProtectedRoute allowedRoles={["user"]}>
+            <ConfirmationPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="/unauthorized" element={<Unauthorized />} />
+    </Routes>
   );
 }
 
