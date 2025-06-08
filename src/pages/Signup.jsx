@@ -43,90 +43,6 @@ const Signup = () => {
   };
 
   return (
-    // <div className="min-h-screen flex items-center justify-center bg-gray-100">
-    //   <Formik
-    //     initialValues={form}
-    //     validationSchema={SignupSchema}
-    //     onSubmit={handleSubmit}
-    //   >
-    //     {({ values, handleChange, errors }) => {
-    //       console.log(errors);
-
-    //       return (
-    //         <Form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    //           <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
-    //           <div className="flex items-center gap-4 mb-8">
-    //             <label className="flex items-center gap-2 cursor-pointer">
-    //               <Field
-    //                 as={InputBox}
-    //                 type="radio"
-    //                 name="role"
-    //                 value="user"
-    //                 checked={values.role === "user"}
-    //                 onChange={handleChange}
-    //                 className="cursor-pointer"
-    //               />
-    //               <span className="text-base leading-none">User</span>
-    //             </label>
-
-    //             <label className="flex items-center gap-2 cursor-pointer">
-    //               <Field
-    //                 as={InputBox}
-    //                 type="radio"
-    //                 name="role"
-    //                 value="admin"
-    //                 checked={values.role === "admin"}
-    //                 onChange={handleChange}
-    //                 className="cursor-pointer"
-    //               />
-    //               <span className="text-base leading-none">Admin</span>
-    //             </label>
-    //           </div>
-
-    //           <Field
-    //             as={InputBox}
-    //             placeholder="Email"
-    //             type="email"
-    //             name="email"
-    //             className={`w-full ${
-    //               !errors.email ? "mb-4" : "mb-4"
-    //             } p-2 border border-gray-300 rounded`}
-    //           />
-    //           {errors.email && (
-    //             <ErrorMessage
-    //               name="email"
-    //               component="p"
-    //               className=" text-sm mb-4 text-red-500 font-semibold"
-    //             />
-    //           )}
-
-    //           <Field
-    //             as={InputBox}
-    //             placeholder="Password"
-    //             type="password"
-    //             name="password"
-    //             lassName={`w-full ${
-    //               errors.password ? "mb-4" : "mb-4"
-    //             } p-2 border border-gray-300 rounded `}
-    //           />
-    //           {errors.password && (
-    //             <ErrorMessage
-    //               name="password"
-    //               component="p"
-    //               className="mb-4 text-sm text-red-500 font-semibold"
-    //             />
-    //           )}
-    //           <button
-    //             type="submit"
-    //             className="w-full mt-4 bg-blue-500 cursor-pointer text-white p-2 rounded hover:bg-blue-600"
-    //           >
-    //             Submit
-    //           </button>
-    //         </Form>
-    //       );
-    //     }}
-    //   </Formik>
-    // </div>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-4">
       <Formik
         initialValues={form}
@@ -208,7 +124,7 @@ const Signup = () => {
                 onClick={() => navigate("/")}
                 className="text-red-600 underline font-medium cursor-pointer"
               >
-               Login In
+                Login In
               </button>
             </div>
           </Form>

@@ -50,7 +50,11 @@ const BookingDetails = () => {
     (item) => item.flight.number === id || item.flight.number === roundtripId
   );
 
-  
+  const totalPrice = uniqueDetails.reduce(
+    (acc, flight) => acc + flight.price,
+    0
+  );
+
   const generateBookingId = () => {
     return "BOOK-" + Date.now();
   };
@@ -58,8 +62,6 @@ const BookingDetails = () => {
   const handleSubmit = (values) => {
     const passengerDetails = values;
     const flightDetails = uniqueDetails;
-
-    console.log(flightDetails);
 
     const isSuccess = true;
 
@@ -69,8 +71,9 @@ const BookingDetails = () => {
 
       const existingBookings =
         JSON.parse(localStorage.getItem("bookings")) || [];
-      const updatedBookings = [...existingBookings, booking];
+      const updatedBookings = [ booking,...existingBookings];
       localStorage.setItem("bookings", JSON.stringify(updatedBookings));
+      localStorage.setItem("CurrentBookings", JSON.stringify([booking]));
 
       navigate("/confirmation", { state: { booking, id } });
     } else {
@@ -98,7 +101,6 @@ const BookingDetails = () => {
               key={flightInfo.iata}
               className="flex flex-col md:flex-row gap-6 items-start mb-10"
             >
-              {/* Flight Info Card */}
               <div className="bg-white shadow-lg rounded-lg p-6 max-w-xl w-full border border-gray-200 hover:shadow-xl transition-shadow duration-300">
                 <div className="flex justify-between items-center mb-4">
                   <div>
@@ -122,7 +124,6 @@ const BookingDetails = () => {
                   </div>
                 </div>
 
-                {/* Departure and Arrival info */}
                 <div className="flex justify-between mb-4">
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800">
@@ -153,7 +154,6 @@ const BookingDetails = () => {
                   </div>
                 </div>
 
-                {/* Aircraft info */}
                 <div className="mb-4">
                   <h4 className="text-lg font-semibold text-gray-800">
                     Aircraft
@@ -164,7 +164,6 @@ const BookingDetails = () => {
                   </p>
                 </div>
 
-                {/* Flight number and price */}
                 <div className="flex justify-between items-center border-t pt-4">
                   <p className="text-gray-700 font-semibold">
                     Flight No: {flightInfo.number} ({flightInfo.iata})
@@ -175,9 +174,14 @@ const BookingDetails = () => {
             </div>
           );
         })}
+        {tripType === "round-trip" && (
+          <div className="flex justify-between items-center border-t pt-4 px-5">
+            <p className="text-gray-700 font-semibold">Total Price</p>
+            <p className="text-xl font-bold text-blue-700">₹{totalPrice}</p>
+          </div>
+        )}
       </div>
 
-      {/* Booking Form */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

@@ -19,7 +19,6 @@ const ViewFlights = () => {
   );
 
   const [oneWayFlightData, setOneWayFlightData] = useState([]);
-
   const [roundTripFlightData, setRoundTripFlightData] = useState([]);
 
   const From = oneWayFlightData?.map((flight, idx) => {
@@ -60,9 +59,9 @@ const ViewFlights = () => {
 
             <div className="space-y-2">
               <StopsFilter
+                roundTripFlightsApiData={roundTripFlightsApiData}
                 flightsApiData={flightsApiData}
                 setOneWayFlightData={setOneWayFlightData}
-                roundTripFlightsApiData={roundTripFlightsApiData}
                 setRoundTripFlightData={setRoundTripFlightData}
               />
             </div>
@@ -71,7 +70,7 @@ const ViewFlights = () => {
 
         <main
           className={` ${
-            tripType === "round-trip" ? "lg:col-span-5" : "lg:col-span-9"
+            tripType === "round-trip" ? "lg:col-span-4" : "lg:col-span-9"
           }    `}
         >
           <h1 className="text-sm font-semibold mb-6">
@@ -89,8 +88,8 @@ const ViewFlights = () => {
               return (
                 <div
                   key={idx}
-                  className={`bg-white rounded-2xl shadow-xl border ${
-                    flight.select ? "border-red-500" : "border-gray-500"
+                  className={` rounded-2xl shadow-xl border ${
+                    flight.select ? "border-red-500 bg-gray-200" : "border-gray-500 bg-white"
                   }  p-6 transition hover:shadow-2xl  `}
                   onClick={() => {
                     if (tripType === "round-trip") {
@@ -211,9 +210,9 @@ const ViewFlights = () => {
                 return (
                   <div
                     key={idx}
-                    className={`bg-white rounded-2xl shadow-xl border ${
-                      flight.select ? "border-red-500" : "border-gray-500"
-                    }  p-6 transition hover:shadow-2xl  `}
+                    className={` rounded-2xl shadow-xl border ${
+                    flight.select ? "border-red-500 bg-gray-200" : "border-gray-500 bg-white"
+                  }  p-6 transition hover:shadow-2xl  `}
                     onClick={() => {
                       if (tripType === "round-trip") {
                         setRoundTripFlightData((prevData) =>

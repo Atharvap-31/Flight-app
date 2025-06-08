@@ -149,7 +149,6 @@ const SearchFlights = () => {
                 ))}
               </div>
 
-              {/* One-way / Round-trip Form */}
               {(values.tripType === "one-way" ||
                 values.tripType === "round-trip") && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -211,7 +210,6 @@ const SearchFlights = () => {
                 </div>
               )}
 
-              {/* Multi-city Form */}
               {values.tripType === "multi-city" && (
                 <FieldArray name="multiCitySegments">
                   {({ push, remove }) => (
@@ -286,7 +284,6 @@ const SearchFlights = () => {
                 </FieldArray>
               )}
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 className="mt-10 w-full cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200 ease-in-out"

@@ -5,9 +5,8 @@ const ConfirmationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { booking, id } = location.state;
+  const currentBooking = JSON.parse(localStorage.getItem("CurrentBookings"));
 
-  console.log(booking);
-  
 
   if (!booking) {
     return (
@@ -47,23 +46,33 @@ const ConfirmationPage = () => {
 
           <hr className="my-4" />
 
-          <p>
-            <strong>Flight:</strong>{" "}
-            {booking?.flightDetails[0]?.departure?.airport} →{" "}
-            {booking?.flightDetails[0]?.arrival?.airport}
-          </p>
-          <p>
-            <strong>Flight Number:</strong>{" "}
-            {booking?.flightDetails[0]?.flight?.iata}
-          </p>
-          <p>
-            <strong>Price:</strong> ₹{booking?.flightDetails[0]?.price}
-          </p>
+          {currentBooking[0].flightDetails.map((flight, index) => {
+            return (
+              <>
+                <p>
+                  <strong>Flight Number:</strong> {flight?.airline?.name}
+                </p>
+                <p>
+                  <strong>Flight:</strong> {flight?.departure?.airport} →{" "}
+                  {flight?.arrival?.airport}
+                </p>
+                <p>
+                  <strong>Flight Number:</strong> {flight?.flight?.iata}
+                </p>
+                <p>
+                  <strong>Price:</strong> ₹{flight?.price}
+                </p>
+              </>
+            );
+          })}
         </div>
 
         <div className="mt-6 flex justify-center">
           <button
-            onClick={() => navigate(`/viewflights`)}
+            onClick={() => {
+              navigate(`/viewflights`);
+              localStorage.setItem("CurrentBookings", null);
+            }}
             className="bg-blue-600 cursor-pointer text-white py-2 px-6 rounded hover:bg-blue-700"
           >
             Go to View Flights

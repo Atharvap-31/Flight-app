@@ -10,7 +10,6 @@ const SearchFlights = () => {
     setBookings(storedBookings);
   }, []);
 
-  console.log(JSON.parse(localStorage.getItem("bookings")));
 
   const filteredBookings = bookings.filter((booking) =>
     booking.flightDetails[0].airline.name
