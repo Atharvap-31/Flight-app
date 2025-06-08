@@ -73,6 +73,26 @@ const ViewFlights = () => {
             tripType === "round-trip" ? "lg:col-span-4" : "lg:col-span-9"
           }    `}
         >
+          {tripType === "round-trip" && (
+            <div className="flex justify-center  pt-6 w-full">
+              <button
+                onClick={() => {
+                  const selectedOnwayFlight = oneWayFlightData.find(
+                    (flight) => flight.select
+                  );
+                  const selectedRoundTripFlight = roundTripFlightData.find(
+                    (flight) => flight.select
+                  );
+                  navigate(
+                    `/viewflights/${selectedOnwayFlight?.flight?.number}/${selectedRoundTripFlight?.flight?.number}`
+                  );
+                }}
+                className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
+              >
+                Book
+              </button>
+            </div>
+          )}
           <h1 className="text-sm font-semibold mb-6">
             {From[0]} - {to[0]}
           </h1>
@@ -299,27 +319,6 @@ const ViewFlights = () => {
                         </span>
                       )}
                     </div>
-                    {flight.select && tripType === "round-trip" && (
-                      <div className="flex justify-center  pt-6 w-full">
-                        <button
-                          onClick={() => {
-                            const selectedOnwayFlight = oneWayFlightData.find(
-                              (flight) => flight.select
-                            );
-                            const selectedRoundTripFlight =
-                              roundTripFlightData.find(
-                                (flight) => flight.select
-                              );
-                            navigate(
-                              `/viewflights/${selectedOnwayFlight?.flight?.number}/${selectedRoundTripFlight?.flight?.number}`
-                            );
-                          }}
-                          className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
-                        >
-                          Book
-                        </button>
-                      </div>
-                    )}
                   </div>
                 );
               })}
