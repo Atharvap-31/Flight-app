@@ -22,28 +22,30 @@ const ViewFlights = () => {
 
   const [roundTripFlightData, setRoundTripFlightData] = useState([]);
 
+  const From = oneWayFlightData?.map((flight, idx) => {
+    const dep = flight.departure.airport;
+    const arr = flight.arrival.airport;
+    return dep, arr;
+  });
+
+  const to = roundTripFlightData?.map((flight, idx) => {
+    const dep = flight.departure.airport;
+    const arr = flight.arrival.airport;
+    return dep, arr;
+  });
+
+  console.log(
+    oneWayFlightData?.map((flight, idx) => {
+      const dep = flight.departure.airport;
+      const arr = flight.arrival.airport;
+
+      console.log(dep);
+      console.log(arr);
+    })
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {tripType === "round-trip" && (
-        <div className="flex justify-center  pt-6 w-[20%]">
-          <button
-            onClick={() => {
-              const selectedOnwayFlight = oneWayFlightData.find(
-                (flight) => flight.select
-              );
-              const selectedRoundTripFlight = roundTripFlightData.find(
-                (flight) => flight.select
-              );
-              navigate(
-                `/viewflights/${selectedOnwayFlight?.flight?.number}/${selectedRoundTripFlight?.flight?.number}`
-              );
-            }}
-            className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
-          >
-            Book
-          </button>
-        </div>
-      )}
       <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside className="lg:col-span-2">
           <div className="p-4 bg-white shadow rounded-lg w-full">
@@ -82,7 +84,9 @@ const ViewFlights = () => {
             tripType === "round-trip" ? "lg:col-span-5" : "lg:col-span-10"
           }    `}
         >
-          <h1>One Way Trip</h1>
+          <h1 className="text-sm font-semibold mb-6">
+            {From[0]} - {to[0]}
+          </h1>
           <div
             className={`grid grid-cols-1 sm:grid-cols-2  ${
               tripType === "round-trip" ? "xl:grid-cols-2" : "xl:grid-cols-4"
@@ -203,7 +207,9 @@ const ViewFlights = () => {
         </main>
         {tripType === "round-trip" && (
           <main className="lg:col-span-5">
-            <h1>Round Trip Trip</h1>
+            <h1 className="text-sm font-semibold mb-6">
+              {to[0]} - {From[0]}
+            </h1>
 
             <div
               className={`grid grid-cols-1 sm:grid-cols-2   xl:grid-cols-2 gap-6`}
@@ -304,6 +310,27 @@ const ViewFlights = () => {
                         </span>
                       )}
                     </div>
+                    {flight.select && tripType === "round-trip" && (
+                      <div className="flex justify-center  pt-6 w-full">
+                        <button
+                          onClick={() => {
+                            const selectedOnwayFlight = oneWayFlightData.find(
+                              (flight) => flight.select
+                            );
+                            const selectedRoundTripFlight =
+                              roundTripFlightData.find(
+                                (flight) => flight.select
+                              );
+                            navigate(
+                              `/viewflights/${selectedOnwayFlight?.flight?.number}/${selectedRoundTripFlight?.flight?.number}`
+                            );
+                          }}
+                          className="w-full bg-blue-500 text-white p-1 text-base rounded-lg cursor-pointer"
+                        >
+                          Book
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })}

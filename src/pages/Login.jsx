@@ -36,9 +36,9 @@ const Login = () => {
     alert("Login successful!");
 
     if (user.role === "admin") {
-      navigate("/admin");
-    } else {
       navigate("/dashboard");
+    } else {
+      navigate("/user");
     }
   };
 
@@ -68,7 +68,6 @@ const Login = () => {
               className="mb-4 text-sm text-red-500 font-semibold"
             />
 
-            {/* Password Field */}
             <Field
               name="password"
               type="password"
@@ -81,13 +80,24 @@ const Login = () => {
               className="mb-4 text-sm text-red-500 font-semibold"
             />
 
-            {/* Submit Button */}
+           
             <button
               type="submit"
-              className="w-full mt-6 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-200 ease-in-out"
+              className="w-full cursor-pointer mt-6 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-200 ease-in-out"
             >
               Log In
             </button>
+            <p className="mt-3 text-black font-medium">
+              If You dont have a Accout please Sign Up
+            </p>
+            <div className="pt-5 flex  justify-end items-center mx-2">
+              <button
+                onClick={() => navigate("/signup")}
+                className="text-red-600 underline font-medium cursor-pointer"
+              >
+                Create Account
+              </button>
+            </div>
           </Form>
         )}
       </Formik>
